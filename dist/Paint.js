@@ -192,6 +192,11 @@ var Paint = function () {
 
       this.camera.position.set(this.cameraX, this.cameraY, this.cameraZ);
 
+      const pointLight = new _Three2.default.PointLight( 0xffffff );
+      pointLight.position.set(1,1,2);
+      this.camera.add(pointLight);
+      
+      
       this.scene.add(this.camera);
 
       this.camera.lookAt(this.mesh);
