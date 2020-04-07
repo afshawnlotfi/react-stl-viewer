@@ -12,6 +12,7 @@ class STLViewer extends Component {
     backgroundColor: PropTypes.string,
     modelColor: PropTypes.string,
     rotate: PropTypes.bool,
+    getPainter : PropTypes.func,
     orbitControls: PropTypes.bool,
     cameraX: PropTypes.number,
     cameraY: PropTypes.number,
@@ -44,6 +45,7 @@ class STLViewer extends Component {
   componentDidMount() {
     this.paint = new Paint();
     this.paint.init(this);
+    this.props.getPainter(this.paint);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -53,6 +55,7 @@ class STLViewer extends Component {
   componentWillUpdate(nextProps, nextState) {
     this.props = nextProps;
     this.paint.init(this);
+    this.props.getPainter(this.paint);
   }
 
   componentWillUnmount() {

@@ -31,8 +31,11 @@ var Paint = function () {
     this.loader = new _Three2.default.STLLoader();
     this.scene = new _Three2.default.Scene();
     this.renderer = new _Three2.default.WebGLRenderer({
+      preserveDrawingBuffer: true,
       antialias: true
     });
+
+
     this.reqNumber = 0;
   }
 
@@ -97,7 +100,15 @@ var Paint = function () {
       directionalLight.name = DIRECTIONAL_LIGHT + index;
       directionalLight.position.normalize();
       this.scene.add(directionalLight);
-    }
+    },
+   },
+    {
+      key: 'captureFrame',
+      value: function captureFrame() {
+        const strMime = "image/svg+xml";
+        const imgData = this.renderer.domElement.toDataURL(strMime)
+        return imgData
+      }
   }, {
     key: 'loadSTLFromUrl',
     value: function loadSTLFromUrl(url, reqId) {

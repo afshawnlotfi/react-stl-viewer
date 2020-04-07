@@ -9,7 +9,7 @@ class Paint {
     this.loader = new THREE.STLLoader();
     this.scene = new THREE.Scene();
     this.renderer = new THREE.WebGLRenderer({
-      antialias: true
+      antialias: true,
     });
     this.reqNumber = 0;
   }
@@ -71,10 +71,16 @@ class Paint {
     this.scene.add(directionalLight);
   }
 
+  captureFrame() {
+    const strMime = 'image/svg+xml';
+    const imgData = this.renderer.domElement.toDataURL(strMime);
+    return imgData;
+  }
+
   loadSTLFromUrl(url, reqId) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.loader.crossOrigin = '';
-      this.loader.loadFromUrl(url, geometry => {
+      this.loader.loadFromUrl(url, (geometry) => {
         if (this.reqNumber !== reqId) {
           return;
         }
@@ -84,8 +90,8 @@ class Paint {
   }
 
   loadFromFile(file) {
-    return new Promise(resolve => {
-      this.loader.loadFromFile(file, geometry => {
+    return new Promise((resolve) => {
+      this.loader.loadFromFile(file, (geometry) => {
         resolve(geometry);
       });
     });
@@ -100,7 +106,7 @@ class Paint {
     } else {
       return Promise.resolve(null);
     }
-    return loadPromise.then(geometry => {
+    return loadPromise.then((geometry) => {
       // Calculate mesh noramls for MeshLambertMaterial.
       geometry.computeFaceNormals();
       geometry.computeVertexNormals();
@@ -110,13 +116,13 @@ class Paint {
 
       let material = new THREE.MeshLambertMaterial({
         overdraw: true,
-        color: this.modelColor
+        color: this.modelColor,
       });
 
       if (geometry.hasColors) {
         material = new THREE.MeshPhongMaterial({
           opacity: geometry.alpha,
-          vertexColors: THREE.VertexColors
+          vertexColors: THREE.VertexColors,
         });
       }
 
@@ -158,6 +164,10 @@ class Paint {
     }
 
     this.camera.position.set(this.cameraX, this.cameraY, this.cameraZ);
+
+    const pointLight = new THREE.PointLight(0xffffff);
+    pointLight.position.set(1, 1, 2);
+    this.camera.add(pointLight);
 
     this.scene.add(this.camera);
 

@@ -38,6 +38,8 @@ var STLViewer = function (_Component) {
     value: function componentDidMount() {
       this.paint = new _Paint2.default();
       this.paint.init(this);
+      this.props.getPainter(this.paint)
+
     }
   }, {
     key: 'shouldComponentUpdate',
@@ -49,6 +51,8 @@ var STLViewer = function (_Component) {
     value: function componentWillUpdate(nextProps, nextState) {
       this.props = nextProps;
       this.paint.init(this);
+      this.props.getPainter(this.paint)
+
     }
   }, {
     key: 'componentWillUnmount',
@@ -59,6 +63,7 @@ var STLViewer = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+
       var _props = this.props,
           width = _props.width,
           height = _props.height,
@@ -101,6 +106,7 @@ STLViewer.propTypes = {
   backgroundColor: _propTypes2.default.string,
   modelColor: _propTypes2.default.string,
   rotate: _propTypes2.default.bool,
+  getPainter : _propTypes2.default.func,
   orbitControls: _propTypes2.default.bool,
   cameraX: _propTypes2.default.number,
   cameraY: _propTypes2.default.number,
